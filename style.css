@@ -36,12 +36,16 @@ body {
 h1 { color: #ff4d6d; font-size: 1.6rem; margin-bottom: 10px; }
 .subtitle { color: #ff758c; font-style: italic; margin-bottom: 20px; font-size: 0.9rem; }
 
+/* Combined and Cleaned up Button Group */
 .btn-group {
     display: flex;
+    flex-direction: row; 
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: 30px; 
     min-height: 150px;
+    width: 100%;
+    position: relative;
 }
 
 button {
@@ -55,26 +59,24 @@ button {
     transition: transform 0.2s ease;
 }
 
-.btn-group {
-    display: flex;
-    flex-direction: row; /* Forces them to stay side-by-side */
-    justify-content: center;
-    align-items: center;
-    gap: 30px; /* This creates the physical gap so they don't touch at the start */
-    min-height: 200px;
-    width: 100%;
+#yes-btn {
+    background-color: #ff4d6d;
+    color: white;
+    z-index: 1 !important; /* Keep Yes lower than No */
     position: relative;
+    animation: heartbeat 1.2s infinite;
+    max-width: 100%;
 }
 
 #no-btn {
     background-color: #808080;
     color: white;
-    position: relative; /* Changed from 'fixed' to 'relative' for the start */
-    z-index: 9999 !important;
+    position: relative; /* Starts relative to stay in flex gap */
+    z-index: 9999 !important; /* Always on top */
     touch-action: none;
-    margin-left: 10px; /* Extra insurance gap */
 }
 
+/* Animations */
 @keyframes flashAnim {
     0% { opacity: 0; }
     50% { opacity: 0.7; }
