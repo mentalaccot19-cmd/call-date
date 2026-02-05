@@ -55,21 +55,24 @@ button {
     transition: transform 0.2s ease;
 }
 
-#yes-btn {
-    background-color: #ff4d6d;
-    color: white;
-    z-index: 1 !important; /* Force this to be lower */
+.btn-group {
+    display: flex;
+    flex-direction: row; /* Forces them to stay side-by-side */
+    justify-content: center;
+    align-items: center;
+    gap: 30px; /* This creates the physical gap so they don't touch at the start */
+    min-height: 200px;
+    width: 100%;
     position: relative;
-    animation: heartbeat 1.2s infinite;
-    max-width: 100%;
 }
 
 #no-btn {
     background-color: #808080;
     color: white;
-    position: fixed; 
-    z-index: 9999 !important; /* Force this to be much higher */
+    position: relative; /* Changed from 'fixed' to 'relative' for the start */
+    z-index: 9999 !important;
     touch-action: none;
+    margin-left: 10px; /* Extra insurance gap */
 }
 
 @keyframes flashAnim {
