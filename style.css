@@ -12,22 +12,21 @@ body {
     touch-action: none; 
 }
 
+/* Glassmorphism Card */
 #main-content {
-    padding: 20px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    padding: 40px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(255, 77, 109, 0.2);
     z-index: 10;
+    width: 85%;
+    transition: transform 0.1s;
 }
 
-h1 {
-    color: #ff4d6d;
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-}
-
-.subtitle {
-    color: #ff758c;
-    font-style: italic;
-    margin-bottom: 30px;
-}
+h1 { color: #ff4d6d; font-size: 1.8rem; margin-bottom: 10px; }
+.subtitle { color: #ff758c; font-style: italic; margin-bottom: 30px; }
 
 .btn-group {
     display: flex;
@@ -45,7 +44,6 @@ button {
     border-radius: 50px;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    touch-action: manipulation;
 }
 
 #yes-btn {
@@ -53,7 +51,6 @@ button {
     color: white;
     z-index: 20;
     animation: heartbeat 1.2s infinite; 
-    transition: all 0.2s ease;
 }
 
 #no-btn {
@@ -63,18 +60,48 @@ button {
     z-index: 15;
 }
 
+/* Flash effect */
+#flash-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.flash-active { animation: flashAnim 0.2s; }
+.shake-active { animation: shakeAnim 0.3s; }
+
+@keyframes flashAnim {
+    0% { opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0; }
+}
+
+@keyframes shakeAnim {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+/* Floating Hearts */
+.heart {
+    position: fixed;
+    top: 100vh;
+    font-size: 1.5rem;
+    user-select: none;
+    pointer-events: none;
+    animation: moveHearts linear forwards;
+}
+
+@keyframes moveHearts {
+    to { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+}
+
 @keyframes heartbeat {
-    0% { transform: scale(1); }
-    14% { transform: scale(1.1); }
-    28% { transform: scale(1); }
-    42% { transform: scale(1.15); }
-    70% { transform: scale(1); }
+    0%, 28%, 70% { transform: scale(1); }
+    14%, 42% { transform: scale(1.15); }
 }
 
 .hidden { display: none; }
-
-#celebration img {
-    width: 85%;
-    max-width: 350px;
-    border-radius: 20px;
-}
