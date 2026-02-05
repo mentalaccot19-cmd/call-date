@@ -3,53 +3,59 @@ const yesBtn = document.getElementById('yes-btn');
 const mainContent = document.getElementById('main-content');
 const celebration = document.getElementById('celebration');
 const audio = document.getElementById('audio');
+const flash = document.getElementById('flash-overlay');
 
 let growthFactor = 1;
 let noCount = 0;
 
+// 1. Create Floating Hearts
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.innerHTML = '❤️';
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+    heart.style.opacity = Math.random();
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+}
+setInterval(createHeart, 400);
+
 const moveButton = () => {
     noCount++;
+    
+    // Lightning/Flash & Shake Effect
+    flash.classList.add('flash-active');
+    mainContent.classList.add('shake-active');
+    setTimeout(() => {
+        flash.classList.remove('flash-active');
+        mainContent.classList.remove('shake-active');
+    }, 300);
 
-    // Move No Button
+    // Random Move
     const maxX = window.innerWidth - noBtn.offsetWidth;
     const maxY = window.innerHeight - noBtn.offsetHeight;
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-    
     noBtn.style.position = 'fixed';
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
+    noBtn.style.left = `${Math.random() * maxX}px`;
+    noBtn.style.top = `${Math.random() * maxY}px`;
 
-    // Growth Logic
+    // Growth
     growthFactor += 0.2;
     yesBtn.style.fontSize = `${1.2 * growthFactor}rem`;
     yesBtn.style.padding = `${15 * growthFactor}px ${35 * growthFactor}px`;
 
     if (noCount >= 10) {
         noBtn.style.display = 'none';
-        yesBtn.innerText = "YOU HAVE NO CHOICE NOW! ❤️";
+        yesBtn.innerText = "JUST SAY YES! ❤️";
     }
-
-    document.title = "Hey! Pick Yes! 🥺";
 };
 
-noBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    moveButton();
-});
+noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
 noBtn.addEventListener('mouseover', moveButton);
 
 yesBtn.addEventListener('click', () => {
     mainContent.classList.add('hidden');
     celebration.classList.remove('hidden');
-    document.title = "Call at 9! ✅";
-
-    confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ['#ff4d6d', '#ffffff', '#ffccd5']
-    });
-
+    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
     audio.play();
 });
