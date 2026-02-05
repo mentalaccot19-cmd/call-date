@@ -25,7 +25,7 @@ setInterval(createHeart, 400);
 const moveButton = () => {
     noCount++;
     
-    // Effects
+    // Lightning/Flash & Shake Effect
     flash.classList.add('flash-active');
     mainContent.classList.add('shake-active');
     setTimeout(() => {
@@ -33,34 +33,41 @@ const moveButton = () => {
         mainContent.classList.remove('shake-active');
     }, 300);
 
-    // Safe Boundary Calculation
-    const padding = 60; // Extra room for thumbs
-    const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-    const maxY = window.innerHeight - noBtn.offsetHeight - padding;
-    
-    const x = Math.max(padding/2, Math.random() * maxX);
-    const y = Math.max(padding/2, Math.random() * maxY);
+    // 1. Get Yes button's current position so we don't land on it
+    const yesRect = yesBtn.getBoundingClientRect();
+    const padding = 20; 
+    let x, y;
+
+    // 2. Try to find a spot that doesn't overlap with the Yes button
+    for (let i = 0; i < 20; i++) {
+        x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
+        y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
+
+        // Check for overlap
+        const overlaps = (
+            x < yesRect.right + padding &&
+            x + noBtn.offsetWidth > yesRect.left - padding &&
+            y < yesRect.bottom + padding &&
+            y + noBtn.offsetHeight > yesRect.top - padding
+        );
+
+        if (!overlaps) break; // Good spot found!
+    }
     
     noBtn.style.position = 'fixed';
     noBtn.style.left = `${x}px`;
     noBtn.style.top = `${y}px`;
 
-    // Gentle Growth (Stops at 10 to keep it mobile friendly)
+    // 3. Gentle Growth
     if (noCount < 10) {
-        growthFactor += 0.12;
+        growthFactor += 0.15;
         yesBtn.style.transform = `scale(${growthFactor})`;
     } else {
-        noBtn.style.display = 'none'; // Hide No after 10 tries
+        noBtn.style.display = 'none';
         yesBtn.style.transform = `scale(1.4)`;
-        yesBtn.innerText = "PLEASE? ❤️";
+        yesBtn.innerText = "OKAY, PICK ME! ❤️";
     }
 };
-
-noBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    moveButton();
-});
-noBtn.addEventListener('mouseover', moveButton);
 
 // 3. Success Action
 yesBtn.addEventListener('click', () => {
