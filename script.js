@@ -25,7 +25,7 @@ setInterval(createHeart, 400);
 const moveButton = () => {
     noCount++;
     
-    // Lightning/Flash & Shake Effect
+    // Effects
     flash.classList.add('flash-active');
     mainContent.classList.add('shake-active');
     setTimeout(() => {
@@ -33,17 +33,16 @@ const moveButton = () => {
         mainContent.classList.remove('shake-active');
     }, 300);
 
-    // 1. Get Yes button's current position so we don't land on it
+    // Get current Yes button position
     const yesRect = yesBtn.getBoundingClientRect();
-    const padding = 20; 
+    const padding = 50; 
     let x, y;
 
-    // 2. Try to find a spot that doesn't overlap with the Yes button
+    // Loop to find a spot that doesn't land on the Yes button
     for (let i = 0; i < 20; i++) {
         x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
         y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
 
-        // Check for overlap
         const overlaps = (
             x < yesRect.right + padding &&
             x + noBtn.offsetWidth > yesRect.left - padding &&
@@ -51,14 +50,15 @@ const moveButton = () => {
             y + noBtn.offsetHeight > yesRect.top - padding
         );
 
-        if (!overlaps) break; // Good spot found!
+        if (!overlaps) break;
     }
     
+    // Switch to fixed position to start the chase
     noBtn.style.position = 'fixed';
     noBtn.style.left = `${x}px`;
     noBtn.style.top = `${y}px`;
 
-    // 3. Gentle Growth
+    // Gentle Growth
     if (noCount < 10) {
         growthFactor += 0.15;
         yesBtn.style.transform = `scale(${growthFactor})`;
@@ -68,6 +68,12 @@ const moveButton = () => {
         yesBtn.innerText = "OKAY, PICK ME! ❤️";
     }
 };
+
+noBtn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    moveButton();
+});
+noBtn.addEventListener('mouseover', moveButton);
 
 // 3. Success Action
 yesBtn.addEventListener('click', () => {
