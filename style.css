@@ -58,7 +58,8 @@ button {
 #yes-btn {
     background-color: #ff4d6d;
     color: white;
-    z-index: 10;
+    z-index: 1 !important; /* Force this to be lower */
+    position: relative;
     animation: heartbeat 1.2s infinite;
     max-width: 100%;
 }
@@ -66,8 +67,9 @@ button {
 #no-btn {
     background-color: #808080;
     color: white;
-    position: relative; /* Starts relative, script makes it fixed */
-    z-index: 999; /* Always above Yes button */
+    position: fixed; 
+    z-index: 9999 !important; /* Force this to be much higher */
+    touch-action: none;
 }
 
 @keyframes flashAnim {
