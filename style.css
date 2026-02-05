@@ -36,7 +36,6 @@ body {
 h1 { color: #ff4d6d; font-size: 1.6rem; margin-bottom: 10px; }
 .subtitle { color: #ff758c; font-style: italic; margin-bottom: 20px; font-size: 0.9rem; }
 
-/* Combined and Cleaned up Button Group */
 .btn-group {
     display: flex;
     flex-direction: row; 
@@ -62,21 +61,19 @@ button {
 #yes-btn {
     background-color: #ff4d6d;
     color: white;
-    z-index: 1 !important; /* Keep Yes lower than No */
+    z-index: 1 !important;
     position: relative;
     animation: heartbeat 1.2s infinite;
-    max-width: 100%;
 }
 
 #no-btn {
     background-color: #808080;
     color: white;
-    position: relative; /* Starts relative to stay in flex gap */
-    z-index: 9999 !important; /* Always on top */
+    position: relative; /* Starts relative to prevent overlap on load */
+    z-index: 9999 !important;
     touch-action: none;
 }
 
-/* Animations */
 @keyframes flashAnim {
     0% { opacity: 0; }
     50% { opacity: 0.7; }
