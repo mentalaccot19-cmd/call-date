@@ -59,13 +59,13 @@ const moveButton = () => {
     noBtn.style.top = `${y}px`;
 
     // Gentle Growth
-    if (noCount < 10) {
+    if (noCount < 3) {
         growthFactor += 0.15;
         yesBtn.style.transform = `scale(${growthFactor})`;
     } else {
         noBtn.style.display = 'none';
         yesBtn.style.transform = `scale(1.4)`;
-        yesBtn.innerText = "OKAY, PICK ME! ❤️";
+        yesBtn.innerText = "😉,NOW NO CHOICE! ❤️";
     }
 };
 
